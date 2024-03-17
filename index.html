@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>코딩네컷</title>
+    <style>
+      /* 이서윤체 폰트 적용을 위한 코드 */
+      @font-face {
+        font-family: "LeeSeoyun";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      /* body태그 자체에 css 요소 부여 */
+      body {
+        font-family: "LeeSeoyun";
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        background-image: url("./일러스트315.png");
+      }
+
+      .container {
+        width: 440px;
+        background-color: #3c8a47;
+        height: 100%;
+      }
+
+      .photos {
+        margin-top: 30px;
+      }
+
+      .photo-frame {
+        background-color: white;
+        margin: 15px 20px;
+        height: 250px;
+        background-size: cover;
+        position: relative;
+        cursor: pointer; //마우스가 사진 위로 올라가면 포인터 아이콘으로 바뀌도록
+      }
+
+      /* 하단 영역 스타일링 */
+      .footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer > *:not(:first-child) {
+    margin-top: 10px; /* 첫 번째 요소를 제외한 나머지 요소들의 위쪽에 10px의 간격을 설정합니다. */
+      }
+
+      .f-title {
+        font-size: 40px;
+        font-weight: 900;
+        color: white;
+      }
+      .f-date {
+        font-size: 20px;
+        font-weight: 500;
+        color: white;
+      }
+
+      #image1 {
+        background-image: url("./일러스트321.png");
+      }
+
+      #image2 {
+        background-image: url("./일러스트323.png");
+      }
+
+      .photo-description {
+        color: white;
+        background-color: #70c96b;
+        width: fit-content;
+        padding: 0 20px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        position: absolute;
+        bottom: 0;
+        transform: translate(-50%);
+        left: 50%;
+        opacity: 0; //초반에 페이지 열릴 때 기본으로 안보이게 하기 위한 설정이에요
+      }
+      .video {
+	width: 100%;
+	height: 100%;
+}
+      .gif {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        width: 100%;
+	      height: 100%;
+      }    
+
+    .text-overlay { 
+        position: absolute;
+        color: white;
+        background-color: #349052;
+        width: fit-content;
+        padding: 0 20px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        position: absolute;
+        bottom: 0;
+        transform: translate(30%);
+        opacity: 0; //초반에 페이지 열릴 때 기본으로 안보이게 하기 위한 설정이에요
+      }    
+
+/* opacity : 투명도를 의미해요! opacity는 1에 가까워 질 수록 불투명하다. 즉 다 보인다. */
+.showText {
+	opacity: 1;
+  transition: opacity 0.3s linear;
+}
+
+/* opacity : 투명도를 의미해요! opacity는 0에 가까워 질 수록 투명하다. 즉 안보인다. */
+/* transition : 나타날 때 0.5초동안 천천히 나타나는 효과를 주라는 의미에요 */
+.hideText {
+	opacity: 0;
+}
+    </style>
+    <script>
+        // 텍스트가 보여지는 기능
+// 1. 몇 번째 사진에 마우스가 올라갔는지 확인(if문)
+// 2. 해당 사진을 찾아 hideText class를 지워주고, showText는 삽입해줌
+function showText(number) {
+  if (number === 1) {
+    document.querySelector("#desc1").classList.remove("hideText");
+    document.querySelector("#desc1").classList.add("showText");
+  } else if (number === 2) {
+    document.querySelector("#desc2").classList.remove("hideText");
+    document.querySelector("#desc2").classList.add("showText");
+  } else {
+    document.querySelector("#desc3").classList.remove("hideText");
+    document.querySelector("#desc3").classList.add("showText");
+  }
+}
+
+// 텍스트가 감춰지는 기능
+// 1. 몇 번째 사진에서 마우스가 벗어났는지 확인(if문)
+// 2. 해당 사진을 찾아 shotText class를 지워주고, hideText는 삽입해줌
+function hideText(number) {
+  if (number === 1) {
+    document.querySelector("#desc1").classList.remove("showText");
+    document.querySelector("#desc1").classList.add("hideText");
+  } else if (number === 2) {
+    document.querySelector("#desc2").classList.remove("showText");
+    document.querySelector("#desc2").classList.add("hideText");
+  } else {
+    document.querySelector("#desc3").classList.remove("showText");
+    document.querySelector("#desc3").classList.add("hideText");
+  }
+}
+// 클릭 기능
+// 1. 선택된 사진의 숫자를 가진 텍스트를 alert 형태로 출력해줌
+function showAlert(type) {
+    let message;
+    switch (type) {
+        case 1:
+            message = "3주년을 축하해요:)";
+            break;
+        case 2:
+            message = "이전에 컨텐츠때 코딩이야기하셔서 해봤답니다 >0<";
+            break;
+        case 3:
+            message = "시간이 오래걸리는게 단점이네요 아마 이번이 처음이자 마지막일듯..";
+            break;
+        default:
+            message = "알 수 없는 내용입니다.";
+    }
+    alert(message);
+}
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="photos">
+        <div
+        id="image1"
+        class="photo-frame"
+        onmouseover="showText(1)"
+        onmouseout="hideText(1)"
+        onclick="alertText(1)"
+      >
+        <span id="desc1" class="photo-description">
+          3주년을 축하하며 1
+        </span>
+      </div>
+      <div
+        id="image2" class="photo-frame"
+        onmouseover="showText(2)"
+        onmouseout="hideText(2)"
+        onclick="alertText(2)"
+      >
+        <span id="desc2" class="photo-description">
+            3주년을 축하하며 2
+          </span>
+        </div>
+        <div class="photo-frame"
+         onmouseover="showText(3)"
+         onmouseout="hideText(3)"
+         onclick="showAlert(3)">
+         <span id="desc3" class="text-overlay">
+            그동안 그렸던 일러스트 (움짤 제외)
+           </span>
+         <img src="./일러스트324.gif" 
+         alt="./일라스트324.gif" 
+          class="gif">
+        </div>
+        <div class="photo-frame">
+            <iframe
+            src="https://www.youtube.com/embed/5F4PNIoP23A?si=Zx3PCup87N5wC_cS"
+            frameborder="0"
+            class="video"
+            ></iframe>
+          </span>
+        </div>
+      </div>
+      <div class="footer">
+        <p class="f-title">🎉 3주년 축하 🎉</p>
+        <p class="f-date">2024.03.19</p>
+      </div>
+    </div>
+  </body>
+</html>
